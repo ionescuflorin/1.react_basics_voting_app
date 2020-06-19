@@ -1,5 +1,18 @@
 
 class ProductList extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      products: [],
+    };
+  }
+
+  // 5.Getting initial data
+  componentDidMount() {
+    this.setState({ products: Seed.products });
+  }
+
   // 1. Set a method to pass it to the child as prop
   // We can pass down *functions* as props too.
   handleProductUpVote(productId) {
@@ -7,8 +20,8 @@ class ProductList extends React.Component {
   }
 
   render() {
-    // Seed is globally accessible
-    const products = Seed.products.sort((a, b) => (
+    // 6.Grabbing data from state
+    const products = this.state.products.sort((a, b) => (
       b.votes - a.votes
     ));
     const productComponents = products.map((product) => (
