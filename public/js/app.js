@@ -6,6 +6,9 @@ class ProductList extends React.Component {
     this.state = {
       products: [],
     };
+
+    // 7.Bindig this for methods outside the render function
+    this.handleProductUpVote = this.handleProductUpVote.bind(this);
   }
 
   // 5.Getting initial data
@@ -16,7 +19,29 @@ class ProductList extends React.Component {
   // 1. Set a method to pass it to the child as prop
   // We can pass down *functions* as props too.
   handleProductUpVote(productId) {
-    console.log(productId + ' was upvoted.');
+    // 8.Immutable Update when upvoting
+
+    // 8.1. we use *map()* to traverse the products array. Importantly, map() returns a new array as opposed to modifying the array this.state.products.
+
+    // 8.2. next, we check if the current product matches productId. If it does, we create a new object, copying over the properties from the original product object. We then overwrite the votes property on our new product object. We set it to the incremented vote count. We do this using Object’s assign() method:
+
+    // 8.3. we use Object.assign() a lot for avoiding mutating objects. For more details on the method, check out “Appendix B.”
+
+    // 8.4. if the current product is not the one specified by productId, we return it unmodified
+
+    // 8.5. finally, we use setState() to update the state.
+    const nextProducts = this.state.products.map((product) => {
+      if (product.id === productId) {
+        return Object.assign({}, product, {
+          votes: product.votes + 1,
+        });
+      } else {
+        return product;
+      }
+    });
+    this.setState({
+      products: nextProducts,
+    });
   }
 
   render() {
